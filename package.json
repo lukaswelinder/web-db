@@ -1,0 +1,45 @@
+{
+  "name": "web-db",
+  "version": "0.0.1",
+  "description": "Graph database for server and browser.",
+  "main": "dist/bundle.umd.js",
+  "jsnext:main": "dist/bundle.es2015.js",
+  "scripts": {
+    "test": "gulp test",
+    "dev": "gulp dev"
+  },
+  "keywords": [
+    "immutable.js",
+    "graph",
+    "tree",
+    "database",
+    "db",
+    "levelup",
+    "leveldb",
+    "level.js"
+  ],
+  "author": "lukaswelinder",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lukaswelinder/web-db.git"
+  },
+  "dependencies": {
+    "immutable": "^3.8.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-sequence": "^0.4.5",
+    "gulp-tape": "0.0.9",
+    "gulp-watch": "^4.3.9",
+    "rollup": "^0.34.10",
+    "rollup-plugin-buble": "^0.13.0",
+    "rollup-plugin-commonjs": "^3.3.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-strip": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "tap-colorize": "^1.2.0",
+    "tape": "^4.6.0"
+  }
+}
