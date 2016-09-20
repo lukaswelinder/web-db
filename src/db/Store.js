@@ -1,20 +1,22 @@
-import leveldb from 'level'
 import Pathwise from 'level-pathwise'
 
 import { fromJS, Set } from 'immutable'
 
-// TODO: implement proper handling of Immutable.js structures ???
 
 export class Store {
 
-  constructor(db_path) {
+  // takes instance of levelDB (
+  constructor(db) {
 
-    // TODO: make store-type agnostic by accepting a 'db' instance
-    if (!db_path || typeof db_path !== 'string')
-      throw 'Missing or invalid path for database...';
+    // if (!db_path || typeof db_path !== 'string')
+    //   throw 'Missing or invalid path for database...';
 
     if(!(this instanceof Store))
       return new Store(db_path);
+
+
+    // TODO: error handling and type-checking
+    this.__db = Pathwise(db);
 
     // Returns promise, resolving with 'this'
     return this.init();
