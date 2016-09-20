@@ -27,7 +27,10 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "level": "^1.4.0",
-    "level-pathwise": "^3.0.3"
+    "level-js": "^2.2.4",
+    "level-pathwise": "^3.0.3",
+    "leveldown": "^1.4.6",
+    "levelup": "^1.3.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
