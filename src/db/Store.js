@@ -3,13 +3,13 @@ import Pathwise from 'level-pathwise'
 
 import { fromJS, Set } from 'immutable'
 
+// TODO: implement proper handling of Immutable.js structures ???
 
-// This is the base-class for Node.js data-store.
 export class Store {
 
   constructor(db_path) {
 
-    // :TODO: make store-type agnostic by accepting a 'db' instance
+    // TODO: make store-type agnostic by accepting a 'db' instance
     if (!db_path || typeof db_path !== 'string')
       throw 'Missing or invalid path for database...';
 
@@ -23,6 +23,7 @@ export class Store {
 
   init() {
 
+    // TODO: check properties upon initialization
     return new Promise(function(resolve, reject) {
 
       this.__db = new Pathwise(leveldb(db_path));
@@ -61,7 +62,6 @@ export class Store {
   }
 
   setIn(key_path, obj) {
-    // :TODO: validate key_path and object structure/properties
 
     // Check if batch.
     if(Array.isArray(obj))
@@ -89,6 +89,20 @@ export class Store {
 
   }
 
+  keysIn(key_path) {
+
+    // Check if batch (runs recursively).
+    if(Array.isArray(key_path[0]))
+      return Promise.all(key_path.map((path) => this.keys(path)));
+
+    this.validateKeyPath(key_path);
+
+    return new Promise(function(resolve, reject) {
+      this.__db.children(key_path, (err, keys) => !err ? resolve(keys) : reject(err));
+    });
+
+  }
+
   deleteIn(key_path) {
 
     // Check if batch.
@@ -107,19 +121,6 @@ export class Store {
 
     return new Promise(function(resolve, reject) {
       this.batch(batch_data, (err) => !err ? resolve(batch_data) : reject(err));
-    });
-
-  }
-
-  keys(key_path) {
-
-    if(Array.isArray(key_path[0]))
-      return Promise.all(key_path.map((path) => this.keys(path)));
-
-    this.validateKeyPath(key_path);
-
-    return new Promise(function(resolve, reject) {
-      this.__db.children(key_path, (err, keys) => !err ? resolve(keys) : reject(err));
     });
 
   }
