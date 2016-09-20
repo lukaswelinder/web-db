@@ -6,13 +6,15 @@ import { fromJS, Set } from 'immutable'
 
 // This is the base-class for Node.js data-store.
 export class Store {
+
   constructor(db_path) {
+
     // :TODO: make store-type agnostic by accepting a 'db' instance
     if (!db_path || typeof db_path !== 'string')
       throw 'Missing or invalid path for database...';
 
-    if(!(this instanceof NodeDB))
-      return new NodeDB(db_path);
+    if(!(this instanceof Store))
+      return new Store(db_path);
 
     // Returns promise, resolving with 'this'
     return this.init();
@@ -21,7 +23,7 @@ export class Store {
 
   init() {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
 
       this.__db = new Pathwise(leveldb(db_path));
 
@@ -67,7 +69,7 @@ export class Store {
 
     this.validateKeyPath(key_path);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       this.__db.put(key_path, obj, (err) => !err ? resolve(key_path) : reject(err));
     });
 
@@ -81,7 +83,7 @@ export class Store {
 
     this.validateKeyPath(key_path);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       this.__db.put(key_path, obj, (err) => !err ? resolve(key_path) : reject(err));
     });
 
@@ -95,7 +97,7 @@ export class Store {
 
     this.validateKeyPath(key_path);
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       this.__db.put(key_path, obj, (err) => !err ? resolve(key_path) : reject(err));
     });
 
@@ -103,8 +105,21 @@ export class Store {
 
   batch(batch_data) {
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       this.batch(batch_data, (err) => !err ? resolve(batch_data) : reject(err));
+    });
+
+  }
+
+  keys(key_path) {
+
+    if(Array.isArray(key_path[0]))
+      return Promise.all(key_path.map((path) => this.keys(path)));
+
+    this.validateKeyPath(key_path);
+
+    return new Promise(function(resolve, reject) {
+      this.__db.children(key_path, (err, keys) => !err ? resolve(keys) : reject(err));
     });
 
   }
