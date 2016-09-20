@@ -25,7 +25,9 @@
     "url": "https://github.com/lukaswelinder/web-db.git"
   },
   "dependencies": {
-    "immutable": "^3.8.1"
+    "immutable": "^3.8.1",
+    "level": "^1.4.0",
+    "level-pathwise": "^3.0.3"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
